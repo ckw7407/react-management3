@@ -47,7 +47,7 @@ class CustomerAdd extends Component {
     }
 
     addCustomer = () => {
-        alert('addCustomer');
+        //alert('addCustomer');
         const url = '/api/customers';
         const formData = new FormData();
         formData.append('image',this.state.file);
