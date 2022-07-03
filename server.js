@@ -11,33 +11,15 @@ app.use(bodyParser.urlencoded({extended:true}));
 //   response.send({message:'Hello Express'});
 // });
 
+const db = require('./config/db');
+
 app.get('/api/customers', (req, res) => {
-  res.send([
-    {
-        'id':1,
-        'image':'https://placeimg.com/64/64/1',
-        'name': '홍길동',
-        'birthday':'2021',
-        'gender':'남자',
-        'job':'대학생'
-      },
-      {
-        'id':2,
-        'image':'https://placeimg.com/64/64/2',
-        'name': '김길동',
-        'birthday':'2022',
-        'gender':'남자',
-        'job':'개발자'
-      },
-      {
-        'id':3,
-        'image':'https://placeimg.com/64/64/3',
-        'name': '박길동',
-        'birthday':'2022',
-        'gender':'남자',
-        'job':'디자이너'
-      }
-  ]);
+  db.query(
+    "select * from customer",
+    (err,rows,fields) => {
+      res.send(rows);
+    }
+  );
 });
   
 
