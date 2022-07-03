@@ -13,6 +13,9 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 const db = require('./config/db');
 
+const multer = require('multer');
+const upload = multer({dest: './upload'});
+
 app.get('/api/customers', (req, res) => {
   db.query(
     "select * from customer",
@@ -22,6 +25,27 @@ app.get('/api/customers', (req, res) => {
   );
 });
   
+app.use('/image',express.static('./upload'));
+
+app.post('/api/customers',upload.single('image'),(req,res)=>{
+  let sql = 'INSERT INTO customer values (null,?,?,?,?,?)';
+  let image = '/image/' + req.file.fileName;
+  let name = req.body.name;
+  let birthday = req.body.birthday;
+  let gender = req.body.gender;
+  let job = req.body.job;
+  let params = [image,name,birthday,gender,job]
+  console.log(name);
+  console.log(image);
+  console.log(birthday);
+  console.log(gender);
+  console.log(job);
+  db.query(sql,params,
+    (err,rows,fields) => {
+      res.send(rows);
+    }
+  );
+});
 
 app.listen(port, function () {
     console.log('Server running at http://127.0.0.1:5000');
