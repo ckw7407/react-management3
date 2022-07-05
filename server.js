@@ -15,6 +15,9 @@ const db = require('./config/db');
 
 const multer = require('multer');
 const upload = multer({dest: './upload'});
+// const upload = multer({ 
+//   dest: __dirname+'/upload/', // 이미지 업로드 경로
+// })
 
 app.get('/api/customers', (req, res) => {
   db.query(
@@ -25,11 +28,13 @@ app.get('/api/customers', (req, res) => {
   );
 });
   
-app.use('/image',express.static('./upload'));
+//app.use('/image',express.static('./upload'));
+app.use('/image', express.static(__dirname + './upload'));
 
 app.post('/api/customers',upload.single('image'),(req,res)=>{
+  console.log(req.file);
   let sql = 'INSERT INTO customer values (null,?,?,?,?,?,0,now())';
-  let image = '/image/' + req.file.fileName;
+  let image = '/image/' + req.file.filename;
   let name = req.body.name;
   let birthday = req.body.birthday;
   let gender = req.body.gender;
