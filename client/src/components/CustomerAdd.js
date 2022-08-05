@@ -49,7 +49,7 @@ class CustomerAdd extends Component {
     addCustomer = () => {
         //alert('addCustomer');
         const url = '/api/customers';
-        const formData = new FormData();
+        const formData = new FormData(); // new URLSearchParams()
         formData.append('image',this.state.file);
         formData.append('name',this.state.userName);
         formData.append('birthday',this.state.birthday);
